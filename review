@@ -1,1 +1,549 @@
+/*
+Roll No       : 2460
+Name          : Srushti Sulgudle
+CNumber       : C22019221459
+Assignment No : 6
 
+
+Problem Statement :
+College Library maintains records of books. 
+ Write a program using C++  for following operations :
+ Add a new book details. Search a book in library.
+ Sort books  based on ISBN numbers.
+ List all books of specific author.
+ Use  appropriate data structure.
+
+ */
+
+#include<iostream>
+using namespace std;
+
+ class node //create a class node
+{
+public:
+string booknm,authornm;
+int ISBN;
+node *next;
+node(string booknm,string authornm,int ISBN) //initialize all variables
+{
+	this->booknm=booknm;
+	this->authornm=authornm;
+    this->ISBN= ISBN;
+
+     next=NULL; 
+}
+
+friend class list;
+};
+
+class list //create class list
+{
+node *front,*rear;
+public:
+
+
+list(){
+    front=rear=NULL;
+}
+void addNew();
+void displayAll();
+void display();
+void searchByBookName();
+void searchByISBN();
+
+void sort();
+void swap(node*,node*);
+};
+
+
+void list::addNew(){
+	int ch;
+	string booknm,authornm;
+	int code;
+                cout<<"Enter Book Name:";
+				 if(booknm.length()==0 )
+                getline(cin,booknm);
+				getline(cin,booknm);
+                cout<<"Enter Author Name:";
+                	getline(cin,authornm);
+
+                cout<<"Enter the ISBN:";
+                cin>>code;
+                node *newn=new node(booknm,authornm,code);
+                if(front==NULL || rear==NULL)
+                front=rear=newn;
+                else
+                {
+                   rear->next=newn;
+                   rear=newn;
+                }
+
+}
+
+void  list::searchByBookName(){
+	int f=0;
+	string nam;
+	cout<<"Enter the name of book : ";
+	getline(cin,nam);
+	
+	getline(cin,nam);
+
+	node *t=front;
+	
+	while(t!=NULL){
+		if(t->booknm==nam){
+			f=1;
+			break;
+		}
+		t=t->next;
+	}
+
+	// if book is found
+	if(f==1){
+			cout<<endl;
+
+			cout<<"Found the book !!!"<<endl;
+			 cout<<"Book Name: "<<t->booknm<<endl;
+			 cout<<"Author Name: "<<t->authornm<<endl;
+			 cout<<"ISBN : "<<t->ISBN<<endl;
+			cout<<endl;
+
+		}
+	else{
+		cout<<"Sorry not available "<<endl;
+	}
+}
+
+void  list::searchByISBN(){
+	int f=0;
+	int isbn;
+	cout<<"Enter ISBN  : ";
+	cin>>isbn;
+
+	node *t=front;
+	
+	while(t!=NULL){
+		if(t->ISBN==isbn){
+			f=1;
+			break;
+		}
+		t=t->next;
+	}
+
+	// if book is found
+	if(f==1){
+			cout<<endl;
+
+			cout<<"Found the book !!!"<<endl;
+			 cout<<"Book Name: "<<t->booknm<<endl;
+			 cout<<"Author Name: "<<t->authornm<<endl;
+			 cout<<"ISBN : "<<t->ISBN<<endl;
+			cout<<endl;
+
+		}
+	else{
+		cout<<"Sorry not available "<<endl;
+	}
+}
+
+void list::displayAll(){
+	node *t=front;
+	if(t!=NULL){
+		while(t!=NULL){
+			cout<<endl;
+			 cout<<"Book Name: "<<t->booknm<<endl;
+			 cout<<"Author Name: "<<t->authornm<<endl;
+			 cout<<"ISBN : "<<t->ISBN<<endl;
+			 t=t->next;
+			cout<<endl;
+		}
+			cout<<endl;
+
+	}
+}
+
+void  list::display(){
+	string nam;
+	int f=0;
+	cout<<"Enter the name of author : ";
+getline(cin,nam);
+	getline(cin,nam);
+
+	node *t=front;
+	
+	while(t!=NULL){
+		if(t->authornm==nam){
+			 cout<<endl;
+			 cout<<"Book Name: "<<t->booknm<<endl;
+			 cout<<"Author Name: "<<t->authornm<<endl;
+			 cout<<"ISBN : "<<t->ISBN<<endl;
+			 f=1;
+		}
+		t=t->next;
+	}
+
+	// if book is found
+	if(f!=1){
+		cout<<"Sorry no such author "<<endl;
+		}
+	
+}
+
+void list::swap(node *t1,node *t2){
+	string booknm,authornm;
+    int ISBN;
+
+	booknm=t1->booknm;
+	authornm=t1->authornm;
+	ISBN=t1->ISBN;
+
+	t1->booknm=t2->booknm;
+	t1->authornm=t2->authornm;
+	t1->ISBN=t2->ISBN;
+
+	t2->booknm=booknm;
+	t2->authornm=authornm;
+	t2->ISBN=ISBN;
+
+}
+
+void  list::sort(){
+	node *t=front,*t2=NULL;
+	int swapped=0;
+
+
+	//Bubble sort
+	do{
+		swapped=0;
+		t=front;
+		while(t->next!=t2){
+			if(t->ISBN > t->next->ISBN){
+				swap(t,t->next);
+				swapped=1;
+			}
+			t=t->next;
+
+		}
+		t2=t;
+	}while(swapped);
+	
+	
+}
+
+
+int main(){
+    int c=0;
+      list l;
+    cout<<"\nOnly for admin "<<endl;
+	// For admin
+	do{
+	cout<<"\nMENU "<<endl;
+	    cout<<"1.Add new book"<<endl;
+	    cout<<"2.Search book "<<endl;
+	    cout<<"3.Display all"<<endl;
+	    cout<<"4.Display by author name"<<endl;
+		cout<<"5.Sort the books on ISBN"<<endl;
+	    cout<<"6.Search book by ISBN "<<endl;
+
+	    cout<<"0.Exit"<<endl;
+	    cout<<"Enter number of your choice: "<<endl;
+	    cin>>c;
+	    switch(c){
+	    
+	    case 1:
+	    	    	l.addNew();
+	    	    	break;
+	    case 2:
+	    	    	l.searchByBookName();
+	    	    	break;
+	    case 3:
+	    	    	l.displayAll();
+	    	    	break;
+	    case 4:
+	    	    	l.display();
+	    	    	break;
+		case 5:
+	    	    	l.sort();
+	    	    	break;
+		case 6:
+	    	    	l.searchByISBN();
+	    	    	break;
+		case 0:  cout<<"Process finished ...."<<endl;
+					break;
+	    default:
+	    	    	cout<<"Wrong choice!"<<endl;
+	    }
+
+	}while(c!=0);
+}
+
+
+/*
+
+Output:
+
+Only for admin 
+
+MENU 
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name     
+5.Sort the books on ISBN     
+0.Exit
+Enter number of your choice: 
+1
+Enter Book Name:Hamlet
+Enter Author Name:William Shakespeare
+Enter the ISBN:234
+
+MENU 
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name     
+5.Sort the books on ISBN     
+0.Exit
+Enter number of your choice: 
+1
+Enter Book Name:The Return Of King
+Enter Author Name:William Shakespeare
+Enter the ISBN:6725
+
+MENU 
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+1
+Enter Book Name:Macbeth
+Enter Author Name:William Shakespeare
+Enter the ISBN:2312
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+1
+Enter Book Name:Harry Potter
+Enter Author Name:J K Rowling
+Enter the ISBN:231
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+1
+Enter Book Name:Stay Birds
+Enter Author Name:Rabindranath Tagore 
+Enter the ISBN:12
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+1
+Enter Book Name:The Broken Nest
+Enter Author Name:Rabindranath Tagore 
+Enter the ISBN:234
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+3
+
+Book Name: Hamlet
+Author Name: William Shakespeare
+ISBN : 234
+
+
+Book Name: The Return Of King
+Author Name: William Shakespeare
+ISBN : 6725
+
+
+Book Name: Macbeth
+Author Name: William Shakespeare
+ISBN : 2312
+
+
+Book Name: Harry Potter
+Author Name: J K Rowling
+ISBN : 231
+
+
+Book Name: Stay Birds
+Author Name: Rabindranath Tagore
+ISBN : 12
+
+
+Book Name: The Broken Nest
+Author Name: Rabindranath Tagore
+ISBN : 234
+
+
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+2
+Enter the name of book : Hamlet
+
+Found the book !!!
+Book Name: Hamlet
+Author Name: William Shakespeare
+ISBN : 234
+
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+4
+Enter the name of author : William Shakespeare
+
+Book Name: Hamlet
+Author Name: William Shakespeare
+ISBN : 234
+
+Book Name: The Return Of King
+Author Name: William Shakespeare
+ISBN : 6725
+
+Book Name: Macbeth
+Author Name: William Shakespeare
+ISBN : 2312
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+5
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+3
+
+Book Name: Stay Birds
+Author Name: Rabindranath Tagore
+ISBN : 12
+
+
+Book Name: Harry Potter
+Author Name: J K Rowling
+ISBN : 231
+
+
+Book Name: Hamlet
+Author Name: William Shakespeare
+ISBN : 234
+
+
+Book Name: The Broken Nest
+Author Name: Rabindranath Tagore
+ISBN : 234
+
+
+Book Name: Macbeth
+Author Name: William Shakespeare
+ISBN : 2312
+
+
+Book Name: The Return Of King
+Author Name: William Shakespeare
+ISBN : 6725
+
+
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+2
+Enter the name of book : The Broken Nest
+
+Found the book !!!
+Book Name: The Broken Nest
+Author Name: Rabindranath Tagore
+ISBN : 234
+
+
+MENU
+1.Add new book
+2.Search book
+3.Display all
+4.Display by author name
+5.Sort the books on ISBN
+0.Exit
+Enter number of your choice:
+0
+Process finished ....
+
+*/
+
+
+/*
+
+--------------------------Time Complexities---------------------------
+
+
+addNew()              O(1)
+
+displayAll()          O(n)
+
+display()             O(n)
+
+searchByBookName()      O(n)
+
+searchByISBN()        O(n)
+
+sort() --Bubble sort  O(n^2)
+
+swap(node*,node*)     O(1)
+
+
+
+*/
